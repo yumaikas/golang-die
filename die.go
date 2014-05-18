@@ -1,6 +1,5 @@
 //The die package works wraps around error, panic and recover
 //OnErr panics if the error passed to it isn't nil,
-//Log takes recovers writes
 
 package die
 
@@ -26,8 +25,8 @@ func OnErr(err error) {
 	}
 }
 
-func Log() interface{} {
-	val := recover()
+//Call with recover() inside
+func Log(val interface{}) interface{} {
 	if val != nil {
 		buf := []byte(fmt.Sprintln(val))
 		mu.Lock()
@@ -36,8 +35,4 @@ func Log() interface{} {
 		return val
 	}
 	return nil
-}
-
-func RecoverTo(err *error) {
-	*err = recover().(error)
 }
